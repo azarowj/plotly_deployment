@@ -63,8 +63,20 @@ function buildCharts(sample) {
     // 4. Create a variable that filters the samples for the object with the desired sample number.
     var filterDesiredArray = samplesArray.filter(sampleObj => sampleObj.id == sample)
 
+    // 1. Create a variable that filters the metadata array for the object with the desired sample number.
+    var metaD = data.metadata;
+    var metaArray = metaD.filter(sampleObj => sampleObj.id == sample);
+
     //  5. Create a variable that holds the first sample in the array.
     var firstinArray = firstDesiredArray[0];
+
+    // 2. Create a variable that holds the first sample in the metadata array.
+    var metaFirst = metaArray[0];
+
+    // Create variables that hold the otu_ids, otu_labels, and sample_values.
+
+
+    // 3. Create a variable that holds the washing frequency.
 
 
     // 6. Create variables that hold the otu_ids, otu_labels, and sample_values.
@@ -81,8 +93,8 @@ function buildCharts(sample) {
 
     // 8. Create the trace for the bar chart. 
     var barData = [{
-      x: sampleValues,
-      y: otuIDS,
+      x: sampleValues.slice(0, 10).reverse(),
+      y: otuIDS.slice(0, 10).reverse(),
       type: 'bar',
       orientation: 'h'
 
@@ -96,7 +108,6 @@ function buildCharts(sample) {
 
     Plotly.newPlot("bar", barData, barLayout);
 
-     // Use Plotly to plot the data with the layout. 
 
     // 1. Create the trace for the bubble chart.
     var bubbleData = [{
@@ -106,9 +117,10 @@ function buildCharts(sample) {
       mode: 'markers',
       marker: {
         size: sampleValues,
-        color: sampleValues,
+        color: otuIDS,
         colorscale: 'Earth'
-      }
+      },
+      hoverinfo: otuLabels
    
     }];
 
@@ -123,9 +135,6 @@ function buildCharts(sample) {
     // 3. Use Plotly to plot the data with the layout.
     Plotly.newPlot('bubble', bubbleData, bubbleLayout);
     
-
-    // D2: 3. Use Plotly to plot the data with the layout.
-   
     
     // 4. Create the trace for the gauge chart.
     var gaugeData = [
